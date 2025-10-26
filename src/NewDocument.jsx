@@ -406,7 +406,7 @@ function NewDocument() {
       )}
 
       {quiz && !quizFinish && (
-        <div>
+        <div className="w-4/6 mx-auto flex flex-col gap-2">
           {/* //Progesss */}
           <div>
             Quetion {currentQuestion + 1} of {quiz.length}{" "}
@@ -414,16 +414,17 @@ function NewDocument() {
           <div className="bg-slate-300 h-2">
             <div
               className={`bg-black`}
-              style={{ width: `${(currentQuestion + 1 / quiz.length) * 100}%` }}
+              style={{ width: `${((currentQuestion + 1 )/ quiz.length) * 100}%` }}
             ></div>
           </div>
 
-          <div>
+          <div className="flex flex-col gap-2">
             {quiz[currentQuestion].question}
+            <p>Select the correct answer</p>
             {quiz[currentQuestion].options.map((option, index) => (
               <div
                 key={index}
-                className={`p-4 border-2 focus:bg-orange-600 ${
+                className={`p-4 border-2 focus:bg-orange-600 rounded-lg  ${
                   selectedOption === option
                     ? "bg-blue-400 text-white border-blue-800"
                     : "hover:bg-slate-400"
@@ -433,10 +434,14 @@ function NewDocument() {
                 {option}
               </div>
             ))}
-            <button onClick={handlePrevious}>Previous</button>
-            <button onClick={handleNext}>
+            <div className="flex gap-2">
+
+            
+            <button onClick={handlePrevious} className="w-1/2 border-2 p-2 rounded-md">Previous</button>
+            <button onClick={handleNext} className="w-1/2 border-2 p-2 rounded-md bg-slate-500 text-white">
               {currentQuestion + 1 < quiz.length ? "Next" : "Finish"}
             </button>
+            </div>
           </div>
         </div>
       )}
