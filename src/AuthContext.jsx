@@ -1,13 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 const AuthContext = createContext()
 export function AuthProvider({children}) {
 
   const [user, setUser] = useState(null)
   const [token, setToken] = useState(()=> localStorage.getItem("token"))
-  
-
+  const [userDetail, setUserDetail] = useState(null)
+  const [summaryHistory, setSummaryHistory] = useState([])
   const navigate = useNavigate()
 
 
@@ -18,6 +19,29 @@ export function AuthProvider({children}) {
       if (storedUser) {
         setUser(storedUser)
       }
+       const fetchSummaries = async () => {
+    const response = await axios.get(`https://summarai-backend.onrender.com/summarai/summary/${user._id}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+    console.log(response.data, "result from mongodb response.data")
+    setSummaryHistory(response.data.data)
+
+  };
+   async function getUserDetail() {
+      const response = await axios.get(`https://summarai-backend.onrender.com/summarai/user/${user._id}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+    console.log(response.data, "result from mongodb response.data")
+    setUserDetail(response.data.data)
+    }
+     getUserDetail()
+     fetchSummaries()
 
     }
   }, [token])
@@ -44,7 +68,7 @@ export function AuthProvider({children}) {
     
 
   return (
-    <AuthContext.Provider value={{user, navigate, login, logout, token}}>
+    <AuthContext.Provider value={{user, navigate, login, logout, token, setSummaryHistory, summaryHistory, setUserDetail, userDetail}}>
         {children}
     </AuthContext.Provider>
   )

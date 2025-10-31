@@ -27,7 +27,7 @@ return (
       {/* Sidebar */}
       <aside
         className={`
-          fixed md:static top-0 left-0 z-40 h-screen w-64 
+          fixed md:static top-0 left-0 z-40 min-h-max w-64 
           bg-slate-900 text-gray-100 shadow-lg 
           flex flex-col
           transform transition-transform duration-300 ease-in-out

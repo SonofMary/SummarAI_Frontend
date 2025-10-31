@@ -3,6 +3,7 @@ import {
   CheckCircle,
   ErrorOutline,
   ErrorOutlineTwoTone,
+  PersonOutline,
   Replay,
   UploadFile,
 } from "@mui/icons-material";
@@ -11,6 +12,7 @@ import {
   AiFillFilePdf,
   AiFillFileWord,
   AiFillX,
+  AiOutlineProfile,
   AiOutlineRedEnvelope,
 } from "react-icons/ai";
 import axios from "axios";
@@ -22,6 +24,7 @@ import remarkGfm from "remark-gfm";
 import rehypeRaw from "rehype-raw";
 import ReactConfetti from "react-confetti";
 import { CiPaperplane } from "react-icons/ci";
+import { GrRobot } from "react-icons/gr";
 
 function NewDocument() {
   const { token, user } = UseAuth();
@@ -512,29 +515,29 @@ function NewDocument() {
       {chat &&  (
         <>
           <div>
-            <div>
+            <div className="flex flex-col h-screen">
               {chatMessages.map((chat, index) => (
                 <div key={index} className="flex flex-col ">
                   <div
-                    className={`p-2 items-start justify-start ${
+                    className={`p-2 items-start justify-start flex gap-1 ${
                       chat.sender === "user"
                         ? " bg-cyan-400 text-black max-w-xl rounded-lg flex  self-start mb-2"
                         : "text-cyan-400 bg-black max-w-xl flex self-end rounded-lg mb-2"
                     }`}
-                  >
+                  >{chat.sender === "user" ? <PersonOutline/> : <GrRobot/>}
                     {chat.text}
                   </div>
                 </div>
               ))}
             </div>
           </div>
-          <div className="flex ">
+          <div className="flex bottom-2 sticky gap-2 ">
             <input
-              type="text" className="w-5/6" placeholder="Type your message here"
+              type="text" className="w-5/6 rounded-md" placeholder="Type your message here"
               onChange={(e) => setUserPrompt(e.target.value)}
               value={userPrompt}
             />
-            <button onClick={() => chatWithAi()} className="border-none">
+            <button onClick={() => chatWithAi()} className="border-none bg-slate-200 p-2 text-2xl rounded-md">
               <CiPaperplane />
             </button>
           </div>

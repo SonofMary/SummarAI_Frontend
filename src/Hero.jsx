@@ -1,5 +1,5 @@
 import React from "react";
-import heroImage from "../src/undraw_google-docs_khfo.svg";
+import heroImage from "../src/premium_vector-1720824711757-a5364459f231-removebg-preview.png";
 import heroImage2 from "./businessman-2735574.png";
 import { AiFillThunderbolt, AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineThunderbolt, AiOutlineTrophy } from "react-icons/ai";
 import { CiChat1, CiPower } from "react-icons/ci";
@@ -115,7 +115,7 @@ function Hero() {
             </p>
           </div>
           <div className="sm:col-span-6 hidden sm:block">
-            <img src={heroImage} alt="" />
+            <img src={heroImage} alt=""  />
           </div>
         </div>
 
@@ -128,29 +128,29 @@ function Hero() {
               Three steps to document enlightenment. No PhD required.
             </p>
           </div>
-          <div className="grid sm:grid-cols-12 gap-4">
-            <div className="sm:col-span-4 border-2 p-4 flex flex-col gap-2">
+          <div className="grid sm:grid-cols-12 gap-4 mt-2">
+            <div className="sm:col-span-4 border-2 p-4 py-6 flex flex-col gap-2">
               <div className="sm:text-6xl text-blue-300">01</div>
-              <p>Drop Your Document</p>
+              <p className="font-semibold">Drop Your Document</p>
               <p>PDF or DOCX? We got you. Just drag, drop, and chill.</p>
             </div>
-            <div className="sm:col-span-4 border-2 p-4 flex flex-col gap-2 ">
+            <div className="sm:col-span-4 border-2 p-4 py-6 flex flex-col gap-2 ">
               <div className="sm:text-6xl text-purple-300">02</div>
-              <p>AI Works Its Magic</p>
+              <p className="font-semibold">AI Works Its Magic</p>
               <p>Our AI reads faster than you had your morning coffee. Summaries in seconds.</p>
             </div>
-           <div className="sm:col-span-4  border-2 p-4 flex flex-col gap-2">
+           <div className="sm:col-span-4  border-2 p-4 py-6 flex flex-col gap-2">
               <div className="sm:text-6xl text-green-500">03</div>
-              <p>Learn Smarter</p>
+              <p className="font-semibold">Learn Smarter</p>
               <p>Read summaries, ace quizzes, or chat away. Your document, your way.</p>
             </div>
           </div>
         </div>
 
         {/* NEXT SECTION IN THE HERO */}
-        <div className="grid sm:grid-cols-12 p-8 items-center">
+        <div className="grid sm:grid-cols-12 items-center">
           <div className="sm:col-span-6 hidden sm:block">
-            <img src={heroImage2} alt="" />
+            <img src="https://plus.unsplash.com/premium_vector-1682301850017-0bb29cfd6580?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=580" alt="" />
           </div>
           <div className="sm:col-span-6  flex flex-col gap-4">
             <p className="text-5xl">Everything You Need to Dominate Your Docs</p>
@@ -161,22 +161,22 @@ function Hero() {
          <div className="grid sm:grid-cols-12 gap-4 p-12">
             <div className="sm:col-span-4 border-2 p-4 flex flex-col gap-2">
               <div className="text-3xl  text-blue-300"><AiOutlineThunderbolt /></div>
-              <p>AI powered Summaries </p>
+              <p  className="font-semibold">AI powered Summaries </p>
               <p>Upload your docs and let AI do the heavy lifting. Get instant, accurate summaries that actually make sense.</p>
             </div>
             <div className="sm:col-span-4 border-2 p-4 flex flex-col gap-2 ">
               <div className="text-3xl  text-purple-300"><AiOutlineTrophy /></div>
-              <p>Smart Quizzes </p>
+              <p  className="font-semibold">Smart Quizzes </p>
               <p>Test yourself with auto-generated quizzes. Because reading is great, but remembering? That's the real flex.</p>
             </div>
            <div className="sm:col-span-4  border-2 p-4 flex flex-col gap-2">
               <div className="text-3xl text-green-500"><CiChat1 /></div>
-              <p>Chat with Your Docs</p>
+              <p  className="font-semibold">Chat with Your Docs</p>
               <p>Ask questions, get answers. Like having a conversation with your PDF, minus the awkward silence.</p>
             </div>
           </div>
           <div>
-            <div className="bg-black flex flex-col gap-4 mx-auto w-8/12 text-white items-center p-8 rounded-xl">
+            <div className="bg-[#fe987b] flex flex-col gap-4 mx-auto  text-white items-center p-8 rounded-xl">
               <p className="text-4xl text-center">Ready to Actually Understand Your Documents?</p>
               <p className="text-xl text-center">Join thousands of smart people who stopped pretending they read everything and started using AI instead.</p>
               <button className="bg-white text-black flex gap-1 items-center p-2 rounded-md">Start Summarizing Now <AiOutlineArrowRight/></button>
@@ -187,4 +187,7 @@ function Hero() {
   );
 }
 
-export default Hero;
+export default Hero; 
+
+
+
