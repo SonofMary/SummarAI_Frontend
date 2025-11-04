@@ -29,6 +29,10 @@ import { GrRobot } from "react-icons/gr";
 function NewDocument() {
   const { token, user } = UseAuth();
 
+  console.log(user, "USER")
+
+  const isFreeUser = !token //If not logged in, it's a guest user
+
   // console.log(token, "token")
 
   //useStatea
@@ -54,56 +58,97 @@ function NewDocument() {
 
   const [showConfetti, setShowConfetti] = useState(false);
 
+  // FIXED: handleOption function
   function handleOption(option) {
     setSelectedOption(option);
-    setQuizSelectedAnswers([...quizSelectedAnswers, option]);
+    // Update the selected answer for current question
+    const newSelectedAnswers = [...quizSelectedAnswers];
+    newSelectedAnswers[currentQuestion] = option;
+    setQuizSelectedAnswers(newSelectedAnswers);
   }
 
-  function handleNext() {
-    const correct = quiz[currentQuestion].answer;
-
-    setQuizQuestionsAnswers([...quizQuestionsAnswers, correct]);
-
-    if (selectedOption === correct) {
-      setScore(score + 1);
-    }
-
-    if (currentQuestion + 1 < quiz.length) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      setQuizFinish(true);
-      setShowConfetti(true);
-
-      setTimeout(() => {
-        setShowConfetti(false);
-      }, 5000);
-    }
+  // FIXED: handleNext function
+// Add this debug version temporarily
+// FIXED: handleNext function
+function handleNext() {
+  if (!selectedOption) {
+    alert("Please select an answer before proceeding!");
+    return;
   }
 
+  const correctAnswer = quiz[currentQuestion].answer;
+  
+  console.log("Current question:", currentQuestion);
+  console.log("Selected option:", selectedOption);
+  console.log("Correct answer:", correctAnswer);
+  console.log("Are they equal?", selectedOption === correctAnswer);
+  
+  // Update score if correct - now comparing full text
+  if (selectedOption === correctAnswer) {
+    console.log("Adding to score!");
+    setScore(prevScore => prevScore + 1);
+  }
+
+  // Store the answers
+  const newSelectedAnswers = [...quizSelectedAnswers];
+  newSelectedAnswers[currentQuestion] = selectedOption; // Store full text for display
+  setQuizSelectedAnswers(newSelectedAnswers);
+
+  const newCorrectAnswers = [...quizQuestionsAnswers];
+  newCorrectAnswers[currentQuestion] = correctAnswer; // Store full text for display
+  setQuizQuestionsAnswers(newCorrectAnswers);
+
+  console.log("Updated selected answers:", newSelectedAnswers);
+  console.log("Updated correct answers:", newCorrectAnswers);
+
+  // Move to next question or finish
+  if (currentQuestion + 1 < quiz.length) {
+    setCurrentQuestion(currentQuestion + 1);
+    setSelectedOption(quizSelectedAnswers[currentQuestion + 1] || "");
+  } else {
+    setQuizFinish(true);
+    setShowConfetti(true);
+    setTimeout(() => {
+      setShowConfetti(false);
+    }, 5000);
+  }
+}
+
+  // FIXED: handlePrevious function
   function handlePrevious() {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
+      setSelectedOption(quizSelectedAnswers[currentQuestion - 1] || "");
     }
   }
 
-  function handleSubmitQuiz() {
+ async function handleSubmitQuiz() {
+
+    if(!user) {
+      alert("Sign up to save your quiz results and access your dashboard!")
+      return
+    }
     const userQuizData = {
       owner: user._id,
       documentTitle: selectedFile.name,
       score: score,
       totalQuestions: quiz.length,
     };
-
+    console.log(userQuizData)
     try {
-      const response = axios.post("", userQuizData, {
+      const response = await axios.post("https://summarai-backend.onrender.com/summarai/quiz/upload", userQuizData, {
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "applicaton/json",
+          "Content-Type": "application/json",
         },
       });
 
       const res = response.data;
-    } catch (error) {}
+      alert("Quiz saved to your dashboard")
+    } catch (error) {
+      console.log(error)
+    }
+    
   }
   //file uploading
 
@@ -282,6 +327,18 @@ function NewDocument() {
       ]);
     }
   };
+
+  // Reset function for quiz
+  const resetQuiz = () => {
+    setCurrentQuestion(0);
+    setSelectedOption("");
+    setScore(0);
+    setQuizFinish(false);
+    setQuizSelectedAnswers([]);
+    setQuizQuestionsAnswers([]);
+    setShowConfetti(false);
+  };
+
   return (
     <div>
       {showConfetti && <ReactConfetti />}
@@ -416,21 +473,21 @@ function NewDocument() {
           </div>
           <div className="bg-slate-300 h-2">
             <div
-              className={`bg-black`}
+              className={`bg-black h-2 transition-all duration-300`}
               style={{ width: `${((currentQuestion + 1 )/ quiz.length) * 100}%` }}
             ></div>
           </div>
 
           <div className="flex flex-col gap-2">
-            {quiz[currentQuestion].question}
+            <h3 className="text-lg font-semibold">{quiz[currentQuestion].question}</h3>
             <p>Select the correct answer</p>
             {quiz[currentQuestion].options.map((option, index) => (
               <div
                 key={index}
-                className={`p-4 border-2 focus:bg-orange-600 rounded-lg  ${
+                className={`p-4 border-2 rounded-lg cursor-pointer transition-colors ${
                   selectedOption === option
                     ? "bg-blue-400 text-white border-blue-800"
-                    : "hover:bg-slate-400"
+                    : "hover:bg-slate-400 border-gray-300"
                 }`}
                 onClick={() => handleOption(option)}
               >
@@ -440,8 +497,16 @@ function NewDocument() {
             <div className="flex gap-2">
 
             
-            <button onClick={handlePrevious} className="w-1/2 border-2 p-2 rounded-md">Previous</button>
-            <button onClick={handleNext} className="w-1/2 border-2 p-2 rounded-md bg-slate-500 text-white">
+            <button 
+              onClick={handlePrevious} 
+              disabled={currentQuestion === 0}
+              className={`w-1/2 border-2 p-2 rounded-md ${
+                currentQuestion === 0 ? "bg-gray-300 cursor-not-allowed" : "hover:bg-gray-100"
+              }`}
+            >
+              Previous
+            </button>
+            <button onClick={handleNext} className="w-1/2 border-2 p-2 rounded-md bg-slate-500 text-white hover:bg-slate-600">
               {currentQuestion + 1 < quiz.length ? "Next" : "Finish"}
             </button>
             </div>
@@ -449,68 +514,72 @@ function NewDocument() {
         </div>
       )}
 
-      {quizFinish && (
-        <div className="flex flex-col items-center gap-4 border-2 rounded-xl p-5 w-fit mx-auto">
-          <div className="flex flex-col items-center justify-center gap-2">
-            <p>Quiz Complete!</p>
-            <p>Here are your results</p>
-            <div className="w-20 h-20 bg-slate-300 rounded-full text-black p-4 flex items-center justify-center">
-              {(score / quiz.length) * 100}%
-            </div>
-            <p>{`You scored ${score} out of ${quiz.length}`}</p>
-          </div>
-          <div className="flex flex-col justify-center">
-            {quiz.map((questionBlock, index) => (
-              <div
-                className={`border-2 rounded-lg p-4 mb-3 flex flex-col gap-2 ${
-                  quizQuestionsAnswers[index] === quizSelectedAnswers[index]
-                    ? "border-green-400"
-                    : "border-red-300"
-                }`}
-              >
-                <p className="font-semibold flex items-center gap-2">
-                  <span>
-                    {quizQuestionsAnswers[index] ===
-                    quizSelectedAnswers[index] ? (
-                      <CheckCircle className="text-green-300" />
-                    ) : (
-                      <OutlineXIcon className="text-red-500" />
-                    )}
-                  </span>
-                  {questionBlock.question}
-                </p>
-                <p className="text-green-600">
-                  Correct: {quizQuestionsAnswers[index]}
-                </p>
-                <p
-                  className={`${
-                    quizQuestionsAnswers[index] === quizSelectedAnswers[index]
-                      ? "text-green-400"
-                      : "text-red-500"
-                  }`}
-                >
-                  Your Answer: {quizSelectedAnswers[index]}
-                </p>
-              </div>
-            ))}
-          </div>
-          <button
-            className="flex gap-2 items-center"
-            onClick={() => {
-              setQuizFinish(false);
-              setScore(0);
-              setCurrentQuestion(0);
-              setSelectedOption("");
-              setQuizQuestionsAnswers([]);
-              setQuizSelectedAnswers([]);
-              setShowConfetti(false);
-            }}
+   {quizFinish && (
+  <div className="flex flex-col items-center gap-4 border-2 rounded-xl p-5 w-fit mx-auto max-w-4xl">
+    <div className="flex flex-col items-center justify-center gap-2">
+      <p className="text-2xl font-bold">Quiz Complete!</p>
+      <p className="text-lg">Here are your results</p>
+      <div className="w-20 h-20 bg-slate-300 rounded-full text-black p-4 flex items-center justify-center text-xl font-bold">
+        {Math.round((score / quiz.length) * 100)}%
+      </div>
+      <p className="text-xl">{`You scored ${score} out of ${quiz.length}`}</p>
+    </div>
+
+    <div className="flex flex-col justify-center w-full">
+      {quiz.map((questionBlock, index) => {
+        const userAnswer = quizSelectedAnswers[index];
+        const correctAnswer = quizQuestionsAnswers[index];
+        const isCorrect = userAnswer === correctAnswer;
+        
+        return (
+          <div
+            key={index}
+            className={`border-2 rounded-lg p-4 mb-3 flex flex-col gap-2 ${
+              isCorrect ? "border-green-400 bg-green-50" : "border-red-300 bg-red-50"
+            }`}
           >
-            <Replay />
-            Retake Quiz
-          </button>
-        </div>
-      )}
+            <p className="font-semibold flex items-center gap-2">
+              <span>
+                {isCorrect ? (
+                  <CheckCircle className="text-green-500" />
+                ) : (
+                  <OutlineXIcon className="text-red-500" />
+                )}
+              </span>
+              Q{index + 1}: {questionBlock.question}
+            </p>
+            <div className="ml-6 space-y-2">
+              <p className={`${isCorrect ? "text-green-600" : "text-red-500"} font-medium`}>
+                Your Answer: {userAnswer || "Not answered"}
+              </p>
+              {!isCorrect && (
+                <p className="text-green-600 font-medium">
+                  Correct Answer: {correctAnswer}
+                </p>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+
+    <div className="flex gap-4 mt-4">
+      <button
+        onClick={handleSubmitQuiz}
+        className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700"
+      >
+        Save Results
+      </button>
+      <button
+        onClick={resetQuiz}
+        className="flex gap-2 items-center bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800"
+      >
+        <Replay />
+        Retake Quiz
+      </button>
+    </div>
+  </div>
+)}
 
       {chat &&  (
         <>
@@ -524,7 +593,7 @@ function NewDocument() {
                         ? " bg-cyan-400 text-black max-w-xl rounded-lg flex  self-start mb-2"
                         : "text-cyan-400 bg-black max-w-xl flex self-end rounded-lg mb-2"
                     }`}
-                  >{chat.sender === "user" ? <PersonOutline/> : <GrRobot/>}
+                  >{chat.sender === "user" ? <PersonOutline/> : <GrRobot />}
                     {chat.text}
                   </div>
                 </div>

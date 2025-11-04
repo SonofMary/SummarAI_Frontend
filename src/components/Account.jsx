@@ -7,7 +7,7 @@ import moment from 'moment'
 import { GrDocument, GrDocumentNotes, GrDocumentPdf } from 'react-icons/gr'
 
 function Account() {
-const {user, token, userDetail, setUserDetail, summaryHistory } = UseAuth()
+const {user, token, userDetail, setUserDetail, summaryHistory, userQuizDetails, setUserQuizDetails  } = UseAuth()
 
 // const [userDetail, setUserDetail] = useState(null)
   
@@ -24,6 +24,8 @@ const {user, token, userDetail, setUserDetail, summaryHistory } = UseAuth()
 //     }
 //     getUserDetail()
 //   }, [token])
+
+const averagePercentage = userQuizDetails.reduce((sum, quiz) => sum + quiz.score, 0)/ userQuizDetails.reduce((sum, quiz) => sum + quiz.totalQuestions, 0) * 100
   return (
     
     <div>{userDetail && (
@@ -54,9 +56,9 @@ const {user, token, userDetail, setUserDetail, summaryHistory } = UseAuth()
          
           <div className='grid sm:grid-cols-2 gap-3'>
             <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><GrDocument /></p>}<p className='flex flex-col gap-1' ><span>Document Processed</span><span>{summaryHistory.length}</span></p></div>
-           <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><QuizOutlined /></p>}<p className='flex flex-col gap-1' ><span>Quizzes taken</span><span>{summaryHistory.length}</span></p></div>
-           <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><ChatBubbleOutline /></p>}<p className='flex flex-col gap-1' ><span>Chat Messages</span><span>{summaryHistory.length}</span></p></div>
-           <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><AiOutlineTrophy /></p>}<p className='flex flex-col gap-1' ><span>Average Quiz Score</span><span>{summaryHistory.length}%</span></p></div>
+           <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><QuizOutlined /></p>}<p className='flex flex-col gap-1' ><span>Quizzes taken</span><span>{userQuizDetails.length}</span></p></div>
+           {/* <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><ChatBubbleOutline /></p>}<p className='flex flex-col gap-1' ><span>Chat Messages</span><span>{summaryHistory.length}</span></p></div> */}
+           <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><AiOutlineTrophy /></p>}<p className='flex flex-col gap-1' ><span>Average Quiz Score</span><span>{averagePercentage}%</span></p></div>
           </div>
 
         

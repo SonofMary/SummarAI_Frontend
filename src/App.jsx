@@ -14,6 +14,8 @@ import SignIn from './SignIn'
 import Dashboard from './Dashboard'
 import ProtectedRoute from './ProtectedRoute'
 import PublicUpload from './components/PublicUpload'
+import Upgrade from './components/Upgrade'
+import Free from './components/Free'
 
 
 export default function App() {
@@ -25,9 +27,10 @@ export default function App() {
       <NavbarMenu/>
       <Routes>
       <Route path='/' element={<Hero/>} />
-      <Route path='/upload' element={<PublicUpload/>} />
+      <Route path='/upload' element={<Free/>} />
       <Route path='/signup' element={<SignUp/>} />
       <Route path='/signin' element={<SignIn/>} />
+      <Route path='/upgrade' element={<Upgrade/>} />
       <Route path='/dashboard/*' element={<ProtectedRoute><Dashboard/></ProtectedRoute>} />
 
       </Routes>

@@ -24,9 +24,9 @@ export function NavbarMenu() {
 
         {/* Get Started Button (Desktop) */}
         <div className="hidden md:block">
-          <Link to="/signup">
+          <Link to="/signin">
             <button className="px-4 py-2 bg-[#6C61EE] text-white rounded-md hover:bg-[#7a6ef5] transition">
-              Get Started
+              Login
             </button>
           </Link>
         </div>

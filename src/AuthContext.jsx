@@ -9,6 +9,10 @@ export function AuthProvider({children}) {
   const [token, setToken] = useState(()=> localStorage.getItem("token"))
   const [userDetail, setUserDetail] = useState(null)
   const [summaryHistory, setSummaryHistory] = useState([])
+  const [userQuizDetails, setUserQuizDetails] = useState([])
+
+
+  const [isPaidUser, SetIsPaidUser] = useState(false)  //
   const navigate = useNavigate()
 
 
@@ -39,9 +43,20 @@ export function AuthProvider({children}) {
     })
     console.log(response.data, "result from mongodb response.data")
     setUserDetail(response.data.data)
+    };
+    async function getUserQuizDetails() {
+      const response = await axios.get(`https://summarai-backend.onrender.com/summarai/quiz/${user._id}`, {
+      headers: {
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      }
+    })
+    console.log(response.data, "result for quiz data")
+    setUserQuizDetails(response.data.data)
     }
      getUserDetail()
      fetchSummaries()
+     getUserQuizDetails()
 
     }
   }, [token])
@@ -68,7 +83,7 @@ export function AuthProvider({children}) {
     
 
   return (
-    <AuthContext.Provider value={{user, navigate, login, logout, token, setSummaryHistory, summaryHistory, setUserDetail, userDetail}}>
+    <AuthContext.Provider value={{user, navigate, login, logout, token, setSummaryHistory, summaryHistory, setUserDetail, userDetail, userQuizDetails, setUserQuizDetails}}>
         {children}
     </AuthContext.Provider>
   )
