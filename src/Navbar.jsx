@@ -17,9 +17,9 @@ export function NavbarMenu() {
         {/* Desktop Menu */}
         <nav className="hidden md:flex gap-6 text-gray-700">
           <Link to="/" className="hover:text-[#6C61EE] transition">Home</Link>
-          <Link to="/about" className="hover:text-[#6C61EE] transition">About</Link>
+          {/* <Link to="/about" className="hover:text-[#6C61EE] transition">About</Link> */}
           <Link to="/upload" className="hover:text-[#6C61EE] transition">Summary</Link>
-          <Link to="/quiz" className="hover:text-[#6C61EE] transition">Quiz</Link>
+          <Link to="/upgrade" className="hover:text-[#6C61EE] transition">Upgrade</Link>
         </nav>
 
         {/* Get Started Button (Desktop) */}
@@ -66,12 +66,11 @@ export function NavbarMenu() {
       {isOpen && (
         <div className="md:hidden flex flex-col items-center gap-4 pb-4 bg-white shadow-inner">
           <Link to="/" onClick={() => setIsOpen(false)}>Home</Link>
-          <Link to="/about" onClick={() => setIsOpen(false)}>About</Link>
           <Link to="/upload" onClick={() => setIsOpen(false)}>Summary</Link>
-          <Link to="/quiz" onClick={() => setIsOpen(false)}>Quiz</Link>
-          <Link to="/signup" onClick={() => setIsOpen(false)}>
+          <Link to="/upgrade" onClick={() => setIsOpen(false)}>Upgrade</Link>
+          <Link to="/signin" onClick={() => setIsOpen(false)}>
             <button className="px-4 py-2 bg-[#6C61EE] text-white rounded-md hover:bg-[#7a6ef5] transition">
-              Get Started
+              Login
             </button>
           </Link>
         </div>

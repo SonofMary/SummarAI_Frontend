@@ -18,16 +18,19 @@ function Hero() {
             Upload your PDFs and let AI generate clear summaries and practice
             questions instantly.
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start mt-3 sm:mt-4">
-            <button className="bg-[#6C61EE] text-white py-2 sm:py-3 px-6 sm:px-8 rounded-md hover:bg-[#5a54e0] transition text-sm sm:text-base">
-              Upload PDF
-            </button>
-            <Link to={"/upload"}>
-            <button className="bg-white border-2 border-[#6C61EE] text-[#6C61EE] py-2 sm:py-3 px-6 sm:px-8 rounded-md hover:bg-[#f2f1ff] transition text-sm sm:text-base">
-              Try Now
-            </button>
-            </Link>
-          </div>
+         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center md:justify-start mt-3 sm:mt-4">
+  <Link to={"/upload"} className="flex">
+    <button className="bg-[#6C61EE] text-white py-2 sm:py-3 px-6 sm:px-8 rounded-md hover:bg-[#5a54e0] text-sm sm:text-base transition-transform hover:scale-105 w-full">
+      Upload PDF
+    </button>
+  </Link>
+  
+  <Link to={"/upload"} className="flex">
+    <button className="bg-white border-2 border-[#6C61EE] text-[#6C61EE] py-2 sm:py-3 px-6 sm:px-8 rounded-md hover:bg-[#f2f1ff] text-sm sm:text-base transition-transform hover:scale-105 w-full">
+      Try Now
+    </button>
+  </Link>
+</div>
         </aside>
 
         {/* RIGHT SIDE — SVG */}
@@ -49,20 +52,21 @@ function Hero() {
       <>
         <div className="grid sm:grid-cols-12 p-6 sm:p-8 lg:p-12 items-center bg-white">
           <div className="sm:col-span-6 flex flex-col gap-3 sm:gap-4">
-            <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl mb-2 sm:mb-4">
-              Read <span className="text-2xl sm:text-3xl md:text-4xl italic">Less.</span>
-              <br />
-              <span className="text-2xl sm:text-3xl md:text-4xl italic">Learn </span>
-              <span>More.</span>
-            </h3>
+           <h3 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl mb-4">
+  Read <span className="italic text-3xl sm:text-4xl">Less.</span>
+  <br />
+  <span className="italic text-3xl sm:text-4xl">Learn</span> More.
+</h3>
             <p className="mb-3 sm:mb-4 text-base sm:text-lg md:text-xl text-[#3f3f3f]">
               Why spend hours reading when AI can summarize it in seconds?
               Upload any document, get instant summaries, take smart quizzes,
               and chat with your docs like they're your study buddy.
             </p>
-            <button className="bg-[#363636] text-white text-sm sm:text-base md:text-xl rounded-sm p-2 sm:p-3 w-fit flex items-center justify-center gap-1 hover:bg-slate-500">
+            <Link to={"/upload"}>
+            <button className="bg-[#363636] text-white text-sm sm:text-base md:text-xl rounded-sm p-1 sm:p-3 w-fit flex items-center justify-center gap-1 hover:bg-[#3676DF] transition-transform hover:scale-105" >
               Get Started for free <AiOutlineArrowRight className="mt-1" />
             </button>
+            </Link>
 
             <div className="space-y-2 sm:space-y-3 mt-2 sm:mt-4">
               <p className="flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
@@ -71,7 +75,7 @@ function Hero() {
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
-                  stroke="currentColor"
+                  stroke="#3676DF"
                   className="size-5 sm:size-6"
                 >
                   <path
@@ -88,7 +92,7 @@ function Hero() {
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
-                  stroke="currentColor"
+                  stroke="#3676DF"
                   className="size-5 sm:size-6"
                 >
                   <path
@@ -105,7 +109,7 @@ function Hero() {
                   fill="none"
                   viewBox="0 0 24 24"
                   strokeWidth="1.5"
-                  stroke="currentColor"
+                  stroke="#3676DF"
                   className="size-5 sm:size-6"
                 >
                   <path
@@ -119,7 +123,7 @@ function Hero() {
             </div>
           </div>
           <div className="sm:col-span-6 hidden sm:block">
-            <img src={heroImage} alt="" className="w-full" />
+            <img src={heroImage} alt="" loading="lazy" className="w-full" />
           </div>
         </div>
 
@@ -133,17 +137,17 @@ function Hero() {
             </p>
           </div>
           <div className="grid sm:grid-cols-12 gap-3 sm:gap-4 mt-2">
-            <div className="sm:col-span-4 border-2 p-3 sm:p-4 py-4 sm:py-6 flex flex-col gap-2">
+            <div className="sm:col-span-4 border-2 p-3 sm:p-4 py-4 sm:py-6 flex flex-col gap-2 hover:shadow-lg transition-shadow cursor-pointer">
               <div className="text-4xl sm:text-5xl md:text-6xl text-blue-300">01</div>
               <p className="font-semibold text-sm sm:text-base md:text-lg">Drop Your Document</p>
               <p className="text-sm sm:text-base">PDF or DOCX? We got you. Just drag, drop, and chill.</p>
             </div>
-            <div className="sm:col-span-4 border-2 p-3 sm:p-4 py-4 sm:py-6 flex flex-col gap-2">
+            <div className="sm:col-span-4 border-2 p-3 sm:p-4 py-4 sm:py-6 flex flex-col gap-2 hover:shadow-lg transition-shadow cursor-pointer">
               <div className="text-4xl sm:text-5xl md:text-6xl text-purple-300">02</div>
               <p className="font-semibold text-sm sm:text-base md:text-lg">AI Works Its Magic</p>
               <p className="text-sm sm:text-base">Our AI reads faster than you had your morning coffee. Summaries in seconds.</p>
             </div>
-           <div className="sm:col-span-4 border-2 p-3 sm:p-4 py-4 sm:py-6 flex flex-col gap-2">
+           <div className="sm:col-span-4 border-2 p-3 sm:p-4 py-4 sm:py-6 flex flex-col gap-2 hover:shadow-lg transition-shadow cursor-pointer">
               <div className="text-4xl sm:text-5xl md:text-6xl text-green-500">03</div>
               <p className="font-semibold text-sm sm:text-base md:text-lg">Learn Smarter</p>
               <p className="text-sm sm:text-base">Read summaries, ace quizzes, or chat away. Your document, your way.</p>
@@ -154,7 +158,7 @@ function Hero() {
         {/* NEXT SECTION IN THE HERO */}
         <div className="grid sm:grid-cols-12 items-center p-6 sm:p-8 md:p-12">
           <div className="sm:col-span-6 hidden sm:block">
-            <img src="https://plus.unsplash.com/premium_vector-1682301850017-0bb29cfd6580?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=580" alt="" className="w-full" />
+            <img src="https://plus.unsplash.com/premium_vector-1682301850017-0bb29cfd6580?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=580" alt="" className="w-full" loading="lazy" />
           </div>
           <div className="sm:col-span-6 flex flex-col gap-3 sm:gap-4 p-4 sm:p-0">
             <p className="text-3xl sm:text-4xl md:text-5xl">Everything You Need to Dominate Your Docs</p>
@@ -163,17 +167,17 @@ function Hero() {
         </div>
         
         <div className="grid sm:grid-cols-12 gap-3 sm:gap-4 p-6 sm:p-8 md:p-12">
-          <div className="sm:col-span-4 border-2 p-3 sm:p-4 flex flex-col gap-2">
+          <div className="sm:col-span-4 border-2 p-3 sm:p-4 flex flex-col gap-2 hover:shadow-lg transition-shadow cursor-pointer">
             <div className="text-2xl sm:text-3xl text-blue-300"><AiOutlineThunderbolt /></div>
             <p className="font-semibold text-sm sm:text-base md:text-lg">AI powered Summaries</p>
             <p className="text-sm sm:text-base">Upload your docs and let AI do the heavy lifting. Get instant, accurate summaries that actually make sense.</p>
           </div>
-          <div className="sm:col-span-4 border-2 p-3 sm:p-4 flex flex-col gap-2">
+          <div className="sm:col-span-4 border-2 p-3 sm:p-4 flex flex-col gap-2 hover:shadow-lg transition-shadow cursor-pointer">
             <div className="text-2xl sm:text-3xl text-purple-300"><AiOutlineTrophy /></div>
             <p className="font-semibold text-sm sm:text-base md:text-lg">Smart Quizzes</p>
             <p className="text-sm sm:text-base">Test yourself with auto-generated quizzes. Because reading is great, but remembering? That's the real flex.</p>
           </div>
-          <div className="sm:col-span-4 border-2 p-3 sm:p-4 flex flex-col gap-2">
+          <div className="sm:col-span-4 border-2 p-3 sm:p-4 flex flex-col gap-2 hover:shadow-lg transition-shadow cursor-pointer">
             <div className="text-2xl sm:text-3xl text-green-500"><CiChat1 /></div>
             <p className="font-semibold text-sm sm:text-base md:text-lg">Chat with Your Docs</p>
             <p className="text-sm sm:text-base">Ask questions, get answers. Like having a conversation with your PDF, minus the awkward silence.</p>
@@ -181,10 +185,12 @@ function Hero() {
         </div>
         
         <div className="p-6 sm:p-8 md:p-12">
-          <div className="bg-[#fe987b] flex flex-col gap-3 sm:gap-4 mx-auto text-white items-center p-6 sm:p-8 rounded-xl max-w-4xl">
+          <div className="bg-[#1c1c1c] flex flex-col gap-3 sm:gap-4 mx-auto text-white items-center p-6 sm:p-8 rounded-xl max-w-full">
             <p className="text-2xl sm:text-3xl md:text-4xl text-center">Ready to Actually Understand Your Documents?</p>
             <p className="text-base sm:text-lg md:text-xl text-center">Join thousands of smart people who stopped pretending they read everything and started using AI instead.</p>
-            <button className="bg-white text-black flex gap-1 items-center p-2 sm:p-3 rounded-md text-sm sm:text-base">Start Summarizing Now <AiOutlineArrowRight/></button>
+            <Link to={"/upload"}>
+            <button className="bg-white text-black flex gap-1 items-center p-2 sm:p-3 rounded-md text-sm sm:text-base transition-transform hover:scale-105">Start Summarizing Now <AiOutlineArrowRight/></button>
+            </Link>
           </div>
         </div>
       </>

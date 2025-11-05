@@ -7,7 +7,7 @@ import moment from 'moment'
 import { GrDocument, GrDocumentNotes, GrDocumentPdf } from 'react-icons/gr'
 
 function Account() {
-const {user, token, userDetail, setUserDetail, summaryHistory, userQuizDetails, setUserQuizDetails  } = UseAuth()
+const {user, token, userDetail, setUserDetail, summaryHistory, userQuizDetails, setUserQuizDetails , logout } = UseAuth()
 
 // const [userDetail, setUserDetail] = useState(null)
   
@@ -43,7 +43,7 @@ const averagePercentage = userQuizDetails.reduce((sum, quiz) => sum + quiz.score
           </div>
 
         </div>
-         <button className='bg-red-500 text-white w-fit p-2 rounded-md text-sm'>Log Out</button>
+         <button className='bg-red-500 text-white w-fit p-2 rounded-md text-sm' onClick={()=>logout()}>Log Out</button>
        
       </div>
       </div>
@@ -58,7 +58,7 @@ const averagePercentage = userQuizDetails.reduce((sum, quiz) => sum + quiz.score
             <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><GrDocument /></p>}<p className='flex flex-col gap-1' ><span>Document Processed</span><span>{summaryHistory.length}</span></p></div>
            <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><QuizOutlined /></p>}<p className='flex flex-col gap-1' ><span>Quizzes taken</span><span>{userQuizDetails.length}</span></p></div>
            {/* <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><ChatBubbleOutline /></p>}<p className='flex flex-col gap-1' ><span>Chat Messages</span><span>{summaryHistory.length}</span></p></div> */}
-           <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><AiOutlineTrophy /></p>}<p className='flex flex-col gap-1' ><span>Average Quiz Score</span><span>{averagePercentage}%</span></p></div>
+           <div className='flex gap-4'>{<p className='flex items-center justify-center p-3 rounded-md text-2xl bg-slate-300'><AiOutlineTrophy /></p>}<p className='flex flex-col gap-1' ><span>Average Quiz Score</span><span>{averagePercentage || 0}%</span></p></div>
           </div>
 
         

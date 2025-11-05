@@ -6,10 +6,10 @@ import { UseAuth } from "../AuthContext";
 function Upgrade() {
   const { login } = UseAuth();
 
-  const publicKey = "pk_test_2ae161c899840f81d8c793985b15082ae51d37c7"; // your Paystack public key
+  const publicKey = "pk_test_2ae161c899840f81d8c793985b15082ae51d37c7";
   const amount = 1000 * 100; // ₦1000 in kobo
 
-  const handlePayment = () => {
+  const handlePayment = async () => {
     const email = document.getElementById("email").value;
 
     if (!email) {
@@ -17,7 +17,13 @@ function Upgrade() {
       return;
     }
 
-    // Create a new Paystack popup instance
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address.");
+      return;
+    }
+
     const paystack = new PaystackPop();
 
     paystack.newTransaction({
@@ -29,7 +35,6 @@ function Upgrade() {
         console.log("Payment successful:", transaction);
 
         try {
-          // send reference to backend for verification & account creation
           const response = await axios.post(
             "https://summarai-backend.onrender.com/summarai/register-paid",
             {
@@ -37,19 +42,27 @@ function Upgrade() {
               reference: transaction.reference,
             }
           );
-          console.log(response.data)
-          const { user, token } = response.data;
-          login(user, token); // auto-login user
+
+          if (response.data.success) {
+            const { user, token } = response.data;
+            login(user, token);
+            alert("🎉 Upgrade successful! Welcome to SummarAI Premium!");
+          } else {
+            alert(`Upgrade failed: ${response.data.message}`);
+          }
         } catch (error) {
           console.error("Error creating paid user:", error);
-          alert(
-            "Payment succeeded but account creation failed. Please contact support."
-          );
+          
+          if (error.response?.data?.message) {
+            alert(`Payment succeeded but: ${error.response.data.message}`);
+          } else {
+            alert("Payment succeeded but account creation failed. Please contact support.");
+          }
         }
       },
 
       onCancel: () => {
-        alert("Payment window closed.");
+        alert("Payment was cancelled.");
       },
     });
   };
@@ -71,14 +84,19 @@ function Upgrade() {
           id="email"
           placeholder="Enter your email"
           className="border rounded-md p-2 w-full mb-4"
+          required
         />
 
         <button
           onClick={handlePayment}
-          className="bg-cyan-600 text-white px-6 py-2 rounded-md hover:bg-cyan-700 transition"
+          className="bg-cyan-600 text-white px-6 py-2 rounded-md hover:bg-cyan-700 transition w-full"
         >
           Upgrade Now
         </button>
+        
+        <p className="text-xs text-gray-500 mt-4">
+          You'll be redirected to Paystack to complete your payment
+        </p>
       </div>
     </div>
   );

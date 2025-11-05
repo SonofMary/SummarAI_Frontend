@@ -35,16 +35,15 @@ function Free() {
   const [chatMessages, setChatMessages] = useState([]);
   const [activeSection, setActiveSection] = useState("upload")
 
-  // FIXED: handleOption function
+  // FIXED: handleOption function (same as NewDocument)
   const handleOption = (option) => {
     setSelectedOption(option);
-    // Update the selected answer for current question
     const newSelectedAnswers = [...quizSelectedAnswers];
     newSelectedAnswers[currentQuestion] = option;
     setQuizSelectedAnswers(newSelectedAnswers);
   };
 
-  // FIXED: handleNext function
+  // FIXED: handleNext function (same as NewDocument)
   const handleNext = () => {
     if (!selectedOption) {
       alert("Please select an answer before proceeding!");
@@ -53,27 +52,33 @@ function Free() {
 
     const correctAnswer = quiz[currentQuestion].answer;
     
-    // Extract just the letter from the selected option (e.g., "A. Leadership" -> "A")
-    const selectedLetter = selectedOption.split('.')[0].trim();
+    console.log("Current question:", currentQuestion);
+    console.log("Selected option:", selectedOption);
+    console.log("Correct answer:", correctAnswer);
+    console.log("Are they equal?", selectedOption === correctAnswer);
     
-    // Update score if correct
-    if (selectedLetter === correctAnswer) {
+    // Update score if correct - comparing full text (same as NewDocument)
+    if (selectedOption === correctAnswer) {
+      console.log("Adding to score!");
       setScore(prevScore => prevScore + 1);
     }
 
-    // Store the answers
+    // Store the answers (same as NewDocument)
     const newSelectedAnswers = [...quizSelectedAnswers];
     newSelectedAnswers[currentQuestion] = selectedOption; // Store full text for display
     setQuizSelectedAnswers(newSelectedAnswers);
 
     const newCorrectAnswers = [...quizQuestionsAnswers];
-    newCorrectAnswers[currentQuestion] = correctAnswer;
+    newCorrectAnswers[currentQuestion] = correctAnswer; // Store full text for display
     setQuizQuestionsAnswers(newCorrectAnswers);
 
-    // Move to next question or finish
+    console.log("Updated selected answers:", newSelectedAnswers);
+    console.log("Updated correct answers:", newCorrectAnswers);
+
+    // Move to next question or finish (same as NewDocument)
     if (currentQuestion + 1 < quiz.length) {
       setCurrentQuestion(currentQuestion + 1);
-      setSelectedOption(quizSelectedAnswers[currentQuestion + 1] || ""); // Pre-select if already answered
+      setSelectedOption(quizSelectedAnswers[currentQuestion + 1] || "");
     } else {
       setQuizFinish(true);
       setShowConfetti(true);
@@ -81,7 +86,7 @@ function Free() {
     }
   };
 
-  // FIXED: handlePrevious function
+  // FIXED: handlePrevious function (same as NewDocument)
   const handlePrevious = () => {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
@@ -216,7 +221,7 @@ function Free() {
     setQuizQuestionsAnswers([]);
   };
 
-  // Reset function for quiz
+  // Reset function for quiz (same as NewDocument)
   const resetQuiz = () => {
     setCurrentQuestion(0);
     setSelectedOption("");
@@ -273,9 +278,9 @@ function Free() {
           
           <button
             onClick={resetToUpload}
-            className="flex items-center gap-2 bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition"
+            className="flex items-center gap-2  text-slate-400 border-2 py-2 px-4 rounded-lg hover:bg-slate-400 hover:text-white transition text-xs"
           >
-            <UploadFile className="text-sm" />
+            <UploadFile className="text-sm text-slate-400 hover:text-black " />
             Upload New Document
           </button>
         </div>
@@ -315,7 +320,7 @@ function Free() {
         </div>
       )}
 
-      {/* Selected file - FIXED: Added activeSection condition */}
+      {/* Selected file */}
       {activeSection === "upload" && selectedFile && !loadingSummary && !summary && (
         <div className="max-w-3xl mx-auto mt-6">
           <div className="border-2 border-dashed border-slate-300 flex items-center p-4 rounded-lg bg-white shadow-sm">
@@ -354,7 +359,7 @@ function Free() {
         </div>
       )}
 
-      {/* Summary view - FIXED: Removed !chat condition */}
+      {/* Summary view */}
       {activeSection === "summary" && summary && (
         <div className="flex flex-col items-center gap-6 mt-6">
           <div className="w-full max-w-3xl bg-white rounded-2xl p-6 shadow-sm border">
@@ -377,19 +382,22 @@ function Free() {
           </div>
 
           <div className="w-full max-w-3xl bg-white rounded-2xl p-6 shadow-sm border">
-            <p className="font-semibold mb-2">Summary</p>
+             <div className="prose prose-h1:text-lg max-w-none leading-relaxed prose-h2:text-base prose-h1:font-medium prose-h2:font-semibold">
+                <p className="font-semibold mb-2">Summary</p>
             <p className="text-gray-600 mb-4 text-sm">
               AI-generated overview of your document:
             </p>
             <ReactMarkDown remarkPlugins={[remarkGfm]} rehypePlugins={[rehypeRaw]}>
               {summary}
             </ReactMarkDown>
+             </div>
+          
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 w-full max-w-3xl">
             <button
               onClick={getQuiz}
-              className="bg-slate-600 text-white py-3 rounded-lg w-full sm:w-1/2 hover:bg-slate-700 transition"
+              className="bg-blue-400 text-white py-3 rounded-lg w-full sm:w-1/2 hover:bg-blue-600 transition"
             >
               {loadingQuiz ? <Spinner /> : "Generate Quiz"}
             </button>
@@ -403,7 +411,7 @@ function Free() {
         </div>
       )}
 
-      {/* Quiz view - UPDATED: Same UI as NewDocument */}
+      {/* Quiz view - UPDATED: Using the same quiz logic as NewDocument */}
       {activeSection === "quiz" && quiz && (
         <div className="max-w-3xl mx-auto mt-6">
           {!quizFinish ? (
@@ -466,6 +474,7 @@ function Free() {
               </div>
             </div>
           ) : (
+            // Quiz Results - UPDATED: Using the same logic as NewDocument
             <div className="flex flex-col items-center gap-4 border-2 rounded-xl p-5 w-full max-w-4xl mx-auto">
               <div className="flex flex-col items-center justify-center gap-2">
                 <p className="text-2xl font-bold">Quiz Complete!</p>
@@ -480,10 +489,7 @@ function Free() {
                 {quiz.map((questionBlock, index) => {
                   const userAnswer = quizSelectedAnswers[index];
                   const correctAnswer = quizQuestionsAnswers[index];
-                  
-                  // Extract letter from user's answer for comparison
-                  const userAnswerLetter = userAnswer ? userAnswer.split('.')[0].trim() : "";
-                  const isCorrect = userAnswerLetter === correctAnswer;
+                  const isCorrect = userAnswer === correctAnswer;
                   
                   return (
                     <div
@@ -508,7 +514,7 @@ function Free() {
                         </p>
                         {!isCorrect && (
                           <p className="text-green-600 font-medium">
-                            Correct Answer: {questionBlock.options.find(opt => opt.split('.')[0].trim() === correctAnswer)}
+                            Correct Answer: {correctAnswer}
                           </p>
                         )}
                       </div>
@@ -529,7 +535,7 @@ function Free() {
         </div>
       )}
 
-      {/* Chat view - FIXED: Use activeSection instead of chat state */}
+      {/* Chat view */}
       {activeSection === "chat" && (
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-2xl shadow-sm border h-[70vh] flex flex-col">
